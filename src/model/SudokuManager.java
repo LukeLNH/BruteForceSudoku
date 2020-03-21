@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 public class SudokuManager {
 
-
+////////////////////////////////////////////// OLD VERSION ////////////////////////////////////////////////
     // PRE: None
     // EFFECTS: returns true if the board is valid, false otherwise
     private boolean validateBoard(int[][] board) {
@@ -157,5 +157,76 @@ public class SudokuManager {
                 lob.remove();
             }
         }
+    }
+/////////////////////////////////////////// New Version ////////////////////////////////////////////////
+    private int[][] solvedBoard;
+
+    public int[][] solveBoard(int[][] solvedBoard) {
+        this.solvedBoard = solvedBoard;
+//        try {
+//            return solve();
+//        } catch (Exception e) {
+//            return dummyUnsolvedBoard();
+//        }
+        int[][] temp = solve();
+        if (temp == null) {
+            return dummyUnsolvedBoard();
+        }
+        return temp;
+    }
+
+    private int[][] dummyUnsolvedBoard() {
+        int[][] temp = new int[9][9];
+        for(int row = 0; row < 9; row++) {
+            for(int col = 0; col < 9; col++) {
+                temp[row][col] = 9;
+            }
+        }
+        return temp;
+    }
+
+    private int[][] solve() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (solvedBoard[i][j] == 0) {
+                    for (int n = 1; n <= 9; n++) {
+                        if (valid(i,j,n)) {
+                            solvedBoard[i][j] = n;
+                            int[][] temp = solve();
+                            if (temp != null) {
+                                return temp;
+                            } else {
+                                solvedBoard[i][j] = 0;
+                            }
+                        }
+                    }
+                    return null;
+                }
+            }
+        }
+        return solvedBoard;
+    }
+
+    //EFFECTS: Produces true if it is possible to place the number there
+    private boolean valid(int x, int y, int n) {
+        for (int i = 0; i< 9; i++) {
+            if (solvedBoard[x][i] == n) {
+                return false;
+            } else if (solvedBoard[i][y] == n) {
+                return false;
+            }
+        }
+
+        int x0 = 3 * (x/3);
+        int y0 = 3 * (y/3); //making use of Java's inherent floor division for integers
+
+        for (int i = x0; i < x0 + 3; i++) {
+            for (int j = y0; j < y0 + 3; j++) {
+                if (solvedBoard[i][j] == n) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

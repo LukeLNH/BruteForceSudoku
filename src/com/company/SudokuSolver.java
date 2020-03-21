@@ -1,9 +1,9 @@
 package com.company;
 
+import exceptions.InvalidBoardException;
 import model.SudokuManager;
 
 import java.util.ArrayList;
-import java.util.*;
 
 
 public class SudokuSolver {
@@ -38,14 +38,14 @@ public class SudokuSolver {
     }
 
 
-    public int[][] solveBoard(int[][] board) {
-        if(manager.isComplete(board)) {
-            return board;
-        }
-
-        todo.addAll(0, manager.generateValidBoards(board));
-        return solveListOfBoards();
-    }
+//    public int[][] solveBoard(int[][] board) {
+//        if(manager.isComplete(board)) {
+//            return board;
+//        }
+//
+//        todo.addAll(0, manager.generateValidBoards(board));
+//        return solveListOfBoards();
+//    }
 
     private int[][] solveListOfBoards() {
         if (todo.size() == 0) {
@@ -64,6 +64,18 @@ public class SudokuSolver {
             }
         }
         return temp;
+    }
+
+    //////////////////////////////////////////// New Version /////////////////////////////////
+    public int[][] solveBoard(int[][] board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                solvedBoard[i][j] = board[i][j]; //creating a copy of the initial board
+            }
+        }
+
+        solvedBoard = manager.solveBoard(solvedBoard);
+        return solvedBoard;
     }
 
 

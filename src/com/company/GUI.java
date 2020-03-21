@@ -169,7 +169,8 @@ import javax.swing.JTextField;
                         JOptionPane.showMessageDialog(frame,"Invalid input. Values must be integers from 1 to 9","Error",JOptionPane.ERROR_MESSAGE);
                     else {
                         GUIToSudokuTable();
-                        sudokuSolver.solvedBoard = sudokuSolver.solveBoard(sudokuSolver.getBoard());
+                        sudokuSolver.solveBoard(sudokuSolver.getBoard());
+                        //sudokuSolver.solvedBoard = sudokuSolver.solveBoard(sudokuSolver.getBoard());
                         sudokuTableToGUI();
                     }
                 }
@@ -178,10 +179,11 @@ import javax.swing.JTextField;
 
             //create frame and add main panel
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(300,300);
+            frame.setSize(500,500);
             frame.getContentPane().add(mainPanel); //add main panel to frame
             frame.setLocationRelativeTo(null);
-            frame.setMinimumSize(new Dimension(300,300));
+            frame.setMinimumSize(new Dimension(500,500));
+            frame.setResizable(false);
             frame.setVisible(true);
         }
 
